@@ -55,27 +55,28 @@ size_flags_vertical = 3
 
 [node name="States" type="VBoxContainer" parent="StateEdit"]
 margin_right = 1024.0
-margin_bottom = 326.0
+margin_bottom = 357.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="NewStateName" type="TextEdit" parent="StateEdit"]
-margin_top = 330.0
+margin_top = 361.0
 margin_right = 100.0
-margin_bottom = 380.0
+margin_bottom = 411.0
 rect_min_size = Vector2( 100, 50 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="AddStateButton" type="Button" parent="StateEdit"]
-margin_top = 384.0
+margin_top = 415.0
 margin_right = 137.0
-margin_bottom = 434.0
+margin_bottom = 465.0
 rect_min_size = Vector2( 50, 50 )
 size_flags_horizontal = 2
 text = " + Add State  "
 
 [node name="StartState" type="OptionButton" parent="StateEdit"]
+visible = false
 margin_top = 438.0
 margin_right = 1024.0
 margin_bottom = 465.0
@@ -86,7 +87,6 @@ margin_top = 573.0
 margin_right = 1024.0
 margin_bottom = 600.0
 text = "Run"
-
 [connection signal="pressed" from="AlphabetEdit/AddAlphaButton" to="." method="_on_AddAlphaButton_pressed"]
 [connection signal="pressed" from="StateEdit/AddStateButton" to="." method="_on_AddStateButton_pressed"]
 [connection signal="item_selected" from="StateEdit/StartState" to="." method="_on_StartState_item_selected"]

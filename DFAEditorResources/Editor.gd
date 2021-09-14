@@ -3,7 +3,7 @@ onready var NewSymbol = $AlphabetEdit/NewSymbol
 onready var Symbols = $AlphabetEdit/Symbols
 onready var States = $StateEdit/States
 const StateEditUI : PackedScene = preload("res://DFAEditorResources/StateEditUI.tscn")
-const StageUI :PackedScene = preload("res://ExecutionStage.tscn")
+const StageUI :PackedScene = preload("res://ExecutionStage/ExecutionStage.tscn")
 
 onready var dfa : DFA = DFA.new([],[],{},"",[])
 
@@ -53,17 +53,21 @@ func _on_AddStateButton_pressed():
 	$StateEdit/States.add_child(state)
 	state.connect("transition_changed", self, "_on_TransitionChanged")
 	state.connect("final_toggled",self,"_on_FinalStateChanged")
+	state.connect("starting_selected",self,"onStartStateSelected")
 	for sym in dfa.symbolSet:
 		dfa.transFunc[state.getId()][sym] = state.getId()
 		state.addTransition(sym, state.getId())
+	if len(dfa.stateSet) == 1:
+		$StateEdit/States.get_child(0).toggleIsStarting(true)
 
-
-func _on_StartState_item_selected(index):
-	$StateEdit/StartState.text = $StateEdit/StartState.get_item_text(index)
-	dfa.startState = $StateEdit/StartState.get_item_text(index)
-
+func onStartStateSelected(id)->void:
+	dfa.startState = id
+	for state in $StateEdit/States.get_children():
+		if state.getId() != id:
+			print("starting tick removed " + state.getId())
+			state.toggleIsStarting(false)
+	
 
 func _on_RunButton_pressed():
-	get_tree().change_scene_to(StageUI)
 	StateMetadata.dfa = dfa
-	
+	get_tree().change_scene_to(StageUI)

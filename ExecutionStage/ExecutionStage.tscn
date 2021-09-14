@@ -1,12 +1,12 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Gravity-Regular.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://Stage.gd" type="Script" id=2]
+[ext_resource path="res://ExecutionStage/Stage.gd" type="Script" id=1]
+[ext_resource path="res://Gravity-Regular.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://DFAEditorResources/GlobalTheme.tres" type="Theme" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
-font_data = ExtResource( 1 )
+font_data = ExtResource( 2 )
 
 [node name="Node" type="Node"]
 
@@ -60,7 +60,7 @@ text = "NEXT"
 [node name="Stage" type="Polygon2D" parent="."]
 color = Color( 0.823529, 0.768627, 0.65098, 1 )
 polygon = PoolVector2Array( -1.95963, -1.22037, 1028.14, -2.466, 1028.14, 599.547, -1.44037, 601.319 )
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 
 [node name="Timer" type="Timer" parent="Stage"]
 

@@ -1,20 +1,10 @@
 extends Polygon2D
 
-const StateCircleScene : PackedScene = preload("res://StateCircle.tscn")
-const TransLineScene : PackedScene = preload("res://TransLine.tscn")
+const StateCircleScene : PackedScene = preload("res://ExecutionStage/StateCircle.tscn")
+const TransLineScene : PackedScene = preload("res://ExecutionStage/TransLine.tscn")
 export(int,0,1000) var timePerStage = 0 setget _setTPS, _getTPS
 
 var dfa : DFA = null
-onready var dummydfa : DFA = DFA.new(
-	["p1", "p2"],
-	["a"],
-	{
-		"p1":{"a" : "p2"},
-		"p2":{"a" : "p1"}
-	},
-	"p1",
-	["p2"]
-)
 
 enum DFAResult{
 	ACCEPTED,

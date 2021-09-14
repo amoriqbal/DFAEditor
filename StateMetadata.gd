@@ -7,6 +7,7 @@ func registerState(stateId:String,stateNode:Node)->void:
 
 func deleteState(stateId:String)->void:
 	nodeById[stateId].queue_free()
+# warning-ignore:return_value_discarded
 	nodeById.erase(stateId)
 
 func getStateById(stateId:String)->Node:

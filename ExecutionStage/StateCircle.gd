@@ -2,7 +2,7 @@ extends Sprite
 export var outport : Dictionary
 export var id:String = "q0" setget set_id, get_id
 export var current:bool = false setget _setCurrent, _getCurrent
-const TransLine:PackedScene = preload("res://TransLine.tscn")
+const TransLine:PackedScene = preload("res://ExecutionStage/TransLine.tscn")
 	
 func _ready()->void:
 	pass
