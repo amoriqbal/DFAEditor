@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://DFAEditorResources/StateEditUI.gd" type="Script" id=1]
+
+[node name="StateEdit" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StateName" type="TextEdit" parent="."]
+margin_right = 165.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 50, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Transitions" type="VBoxContainer" parent="."]
+margin_left = 169.0
+margin_right = 995.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="IsFinal" type="CheckBox" parent="."]
+margin_left = 999.0
+margin_right = 1023.0
+margin_bottom = 600.0
+
+[connection signal="toggled" from="IsFinal" to="." method="_on_IsFinal_toggled"]
