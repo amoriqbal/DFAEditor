@@ -32,7 +32,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-StateMetadata="*res://StateMetadata.gd"
+StateMetadata="*res://Autoloads/StateMetadata.gd"
+SceneManager="*res://Autoloads/SceneManager.gd"
 
 [gdnative]
 

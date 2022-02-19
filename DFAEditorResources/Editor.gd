@@ -3,7 +3,7 @@ onready var NewSymbol = $AlphabetEdit/NewSymbol
 onready var Symbols = $AlphabetEdit/Symbols
 onready var States = $StateEdit/States
 const StateEditUI : PackedScene = preload("res://DFAEditorResources/StateEditUI.tscn")
-const StageUI :PackedScene = preload("res://ExecutionStage/ExecutionStage.tscn")
+var StageUI :PackedScene = load("res://ExecutionStage/ExecutionStage.tscn")
 
 onready var dfa : DFA = DFA.new([],[],{},"",[])
 
@@ -25,6 +25,8 @@ func _on_AddAlphaButton_pressed():
 	for state in states:
 		state.addTransition(NewSymbol.text, state.getId())
 		dfa.transFunc[state.getId()][NewSymbol.text] = state.getId()
+	
+	NewSymbol.text = ""
 
 
 func _on_TransitionChanged(id : String, symbol : String, target: String) -> void:
@@ -41,16 +43,19 @@ func _on_FinalStateChanged(id, isFinal):
 	print(dfa)
 
 func _on_AddStateButton_pressed():
-	if $StateEdit/NewStateName.text in dfa.stateSet:
+	var newStateName = $StateEdit/HBoxContainer/NewStateName.text
+	$StateEdit/HBoxContainer/NewStateName.text = ""
+	if newStateName in dfa.stateSet:
 		push_error("There is an existing state with this name")
 		return
 	
-	dfa.stateSet.append($StateEdit/NewStateName.text)
-	dfa.transFunc[$StateEdit/NewStateName.text] = {}
-	$StateEdit/StartState.add_item($StateEdit/NewStateName.text)
+	dfa.stateSet.append(newStateName)
+	dfa.transFunc[newStateName] = {}
+	#$StateEdit/StartState.add_item($StateEdit/NewStateName.text)
 	var state = StateEditUI.instance()
-	state.setId($StateEdit/NewStateName.text)
+	state.setId(newStateName)
 	$StateEdit/States.add_child(state)
+	StateMetadata.registerState(newStateName, state)
 	state.connect("transition_changed", self, "_on_TransitionChanged")
 	state.connect("final_toggled",self,"_on_FinalStateChanged")
 	state.connect("starting_selected",self,"onStartStateSelected")
@@ -69,5 +74,57 @@ func onStartStateSelected(id)->void:
 	
 
 func _on_RunButton_pressed():
-	StateMetadata.dfa = dfa
-	get_tree().change_scene_to(StageUI)
+	SceneManager.stageDFA(dfa)
+
+func _on_MenuButton_pressed(id):
+	if id == 0:
+		$StateEdit/HBoxContainer/MenuButton/OpenFileDialog.popup_centered_ratio()
+	else:
+		$StateEdit/HBoxContainer/MenuButton/SaveFileDialog.popup_centered_ratio()
+
+func init(_dfa:DFA):
+	for i in _dfa.symbolSet:
+		$AlphabetEdit/NewSymbol.text = i
+		_on_AddAlphaButton_pressed()
+	
+	for i in _dfa.stateSet:
+		$StateEdit/HBoxContainer/NewStateName.text = i
+		_on_AddStateButton_pressed()
+	
+	for id in _dfa.transFunc:
+		for sym in _dfa.transFunc[id]:
+			_on_TransitionChanged(id, sym, _dfa.transFunc[id][sym])
+	
+	for i in _dfa.stateSet:
+		if i in _dfa.endStates:
+			StateMetadata.getStateById(i).toggleIsFinal(true)
+			#_on_FinalStateChanged(i, true)
+		else:
+			StateMetadata.getStateById(i).toggleIsFinal(false)
+			#_on_FinalStateChanged(i, false)
+	
+	StateMetadata.getStateById(_dfa.startState).toggleIsStarting(true)
+	#onStartStateSelected(_dfa.startState)
+
+
+func _ready():
+	$StateEdit/HBoxContainer/MenuButton.get_popup().connect("id_pressed",self, "_on_MenuButton_pressed")
+	
+	if "Editor" in SceneManager.payload:
+		init(SceneManager.payload["Editor"])
+		SceneManager.payload.erase("Editor")
+
+func _on_OpenFileDialog_file_selected(path):
+	var file = File.new()
+	file.open(path,File.READ)
+	var _dfa = DFA.new()
+	_dfa.import_from_file(file)
+	SceneManager.editDFA(_dfa)
+	file.close()
+
+
+func _on_SaveFileDialog_file_selected(path):
+	var file = File.new()
+	file.open(path,File.WRITE)
+	dfa.export_to_file(file)
+	file.close()

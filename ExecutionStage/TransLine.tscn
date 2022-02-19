@@ -3,21 +3,21 @@
 [ext_resource path="res://ExecutionStage/TransLine.gd" type="Script" id=1]
 [ext_resource path="res://Gravity-Regular.otf" type="DynamicFontData" id=2]
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.0166667, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.538889, 0.672727 ), -0.0199556, -0.0199556, 0, 0, Vector2( 1, 0.163636 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.657718 )
 colors = PoolColorArray( 0.8125, 0.393555, 0.393555, 1, 0.964197, 0.96875, 0.385986, 1 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=3]
 size = 24
 font_data = ExtResource( 2 )
 
 [node name="Line2D" type="Line2D"]
 points = PoolVector2Array( 0, 0, 100, -40, 200, 0 )
-width_curve = SubResource( 5 )
-gradient = SubResource( 4 )
+width_curve = SubResource( 1 )
+gradient = SubResource( 2 )
 script = ExtResource( 1 )
 heightRatio = 0.5
 minHeight = 100.0
@@ -27,7 +27,7 @@ margin_left = 80.0
 margin_top = -60.0
 margin_right = 120.0
 margin_bottom = -21.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

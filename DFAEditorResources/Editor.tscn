@@ -1,9 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://DFAEditorResources/Editor.gd" type="Script" id=1]
 [ext_resource path="res://default_env.tres" type="Theme" id=2]
-
-[sub_resource type="ButtonGroup" id=1]
 
 [node name="Editor" type="VBoxContainer"]
 anchor_right = 1.0
@@ -49,45 +47,71 @@ text = "+"
 [node name="StateEdit" type="VBoxContainer" parent="."]
 margin_top = 104.0
 margin_right = 1024.0
-margin_bottom = 569.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="States" type="VBoxContainer" parent="StateEdit"]
 margin_right = 1024.0
-margin_bottom = 357.0
+margin_bottom = 442.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="NewStateName" type="TextEdit" parent="StateEdit"]
-margin_top = 361.0
-margin_right = 100.0
-margin_bottom = 411.0
+[node name="HBoxContainer" type="HBoxContainer" parent="StateEdit"]
+margin_top = 446.0
+margin_right = 1024.0
+margin_bottom = 496.0
+
+[node name="NewStateName" type="TextEdit" parent="StateEdit/HBoxContainer"]
+margin_right = 253.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 100, 50 )
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="AddStateButton" type="Button" parent="StateEdit"]
-margin_top = 415.0
-margin_right = 137.0
-margin_bottom = 465.0
+[node name="AddStateButton" type="Button" parent="StateEdit/HBoxContainer"]
+margin_left = 257.0
+margin_right = 510.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 text = " + Add State  "
 
-[node name="StartState" type="OptionButton" parent="StateEdit"]
-visible = false
-margin_top = 438.0
-margin_right = 1024.0
-margin_bottom = 465.0
-group = SubResource( 1 )
-
-[node name="RunButton" type="Button" parent="."]
-margin_top = 573.0
-margin_right = 1024.0
-margin_bottom = 600.0
+[node name="RunButton" type="Button" parent="StateEdit/HBoxContainer"]
+margin_left = 514.0
+margin_right = 767.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
 text = "Run"
+
+[node name="MenuButton" type="MenuButton" parent="StateEdit/HBoxContainer"]
+margin_left = 771.0
+margin_right = 1024.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+text = "Menu"
+items = [ "Import", null, 0, false, false, 0, 0, null, "", false, "Export", null, 0, false, false, 1, 0, null, "", false ]
+
+[node name="OpenFileDialog" type="FileDialog" parent="StateEdit/HBoxContainer/MenuButton"]
+margin_right = 356.0
+margin_bottom = 170.0
+window_title = "Open a File"
+resizable = true
+mode = 0
+access = 2
+current_dir = "/mnt/A03CF9633CF9353E/Godot/DFAGen"
+current_path = "/mnt/A03CF9633CF9353E/Godot/DFAGen/"
+
+[node name="SaveFileDialog" type="FileDialog" parent="StateEdit/HBoxContainer/MenuButton"]
+margin_right = 356.0
+margin_bottom = 170.0
+resizable = true
+access = 2
+current_dir = "/mnt/A03CF9633CF9353E/Godot/DFAGen"
+current_path = "/mnt/A03CF9633CF9353E/Godot/DFAGen/"
+
 [connection signal="pressed" from="AlphabetEdit/AddAlphaButton" to="." method="_on_AddAlphaButton_pressed"]
-[connection signal="pressed" from="StateEdit/AddStateButton" to="." method="_on_AddStateButton_pressed"]
-[connection signal="item_selected" from="StateEdit/StartState" to="." method="_on_StartState_item_selected"]
-[connection signal="pressed" from="RunButton" to="." method="_on_RunButton_pressed"]
+[connection signal="pressed" from="StateEdit/HBoxContainer/AddStateButton" to="." method="_on_AddStateButton_pressed"]
+[connection signal="pressed" from="StateEdit/HBoxContainer/RunButton" to="." method="_on_RunButton_pressed"]
+[connection signal="file_selected" from="StateEdit/HBoxContainer/MenuButton/OpenFileDialog" to="." method="_on_OpenFileDialog_file_selected"]
+[connection signal="file_selected" from="StateEdit/HBoxContainer/MenuButton/SaveFileDialog" to="." method="_on_SaveFileDialog_file_selected"]

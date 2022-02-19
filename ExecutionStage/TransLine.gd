@@ -26,16 +26,15 @@ func autoAttach()->void:
 	position = fromNode.position
 	control_points[0] = Vector2.ZERO
 	control_points[2] = toNode.position - position
-	control_points[1] = control_points[2] / 2 \
-		+ (control_points[2] / 2).rotated(PI / 2) * heightRatio
-	control_points[1].y = max(control_points[1].y, minHeight)
+	control_points[1] = control_points[2] / 2 + (control_points[2] / 2).rotated(PI / 2) * heightRatio  
+	control_points[1].y = max(control_points[1].y, minHeight) * sign(control_points[2].x - control_points[0].x)
 	$Label.set_position(control_points[1])
 	var curve = Curve2D.new()
 	
 	for pt in control_points:
 		curve.add_point(pt)
 	
-	var smoothening_value = max(minHeight, control_points[1].x - control_points[0].x)
+	var smoothening_value = max(minHeight, abs(control_points[1].x - control_points[0].x)) * sign(control_points[2].x - control_points[0].x) * -1
 	curve.set_point_out(1, Vector2(-smoothening_value / 2, 0))
 	curve.set_point_in(1, Vector2(smoothening_value / 2, 0))
 	points = curve.get_baked_points()

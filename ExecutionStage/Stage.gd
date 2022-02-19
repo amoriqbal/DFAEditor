@@ -1,5 +1,6 @@
 extends Polygon2D
 
+const EditorPScene : PackedScene = preload("res://DFAEditorResources/Editor.tscn")
 const StateCircleScene : PackedScene = preload("res://ExecutionStage/StateCircle.tscn")
 const TransLineScene : PackedScene = preload("res://ExecutionStage/TransLine.tscn")
 export(int,0,1000) var timePerStage = 0 setget _setTPS, _getTPS
@@ -84,8 +85,8 @@ func _on_Timer_timeout() -> void:
 
 func _on_StartButton_pressed() -> void:
 	resetStage()
-	$"../UI/VBox/HBox/StartButton".visible = false
-	$"../UI/VBox/HBox/NextButton".visible = true
+	$"../UI/VBox/HBox/ExecutionButtons/StartButton".visible = false
+	$"../UI/VBox/HBox/ExecutionButtons/NextButton".visible = true
 
 func _on_NextButton_pressed() -> void:
 	var result : int = nextStage()
@@ -99,5 +100,13 @@ func _on_NextButton_pressed() -> void:
 
 
 func _on_ResultNotifDialogue_confirmed():
-	$"../UI/VBox/HBox/NextButton".visible = false
-	$"../UI/VBox/HBox/StartButton".visible = true
+	$"../UI/VBox/HBox/ExecutionButtons/NextButton".visible = false
+	$"../UI/VBox/HBox/ExecutionButtons/StartButton".visible = true
+
+
+func _on_ResetButton_pressed():
+	SceneManager.stageDFA(dfa)
+
+
+func _on_EditButton_pressed():
+	SceneManager.editDFA(dfa)

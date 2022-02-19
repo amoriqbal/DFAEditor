@@ -32,30 +32,56 @@ __meta__ = {
 }
 
 [node name="TextEdit" type="TextEdit" parent="UI/VBox/HBox"]
-margin_right = 839.0
+margin_right = 504.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 
-[node name="StartButton" type="Button" parent="UI/VBox/HBox"]
-margin_left = 855.0
+[node name="ExecutionButtons" type="VBoxContainer" parent="UI/VBox/HBox"]
+margin_left = 520.0
 margin_right = 1024.0
 margin_bottom = 100.0
 size_flags_horizontal = 3
-size_flags_vertical = 9
-size_flags_stretch_ratio = 0.2
+size_flags_vertical = 3
+
+[node name="StartButton" type="Button" parent="UI/VBox/HBox/ExecutionButtons"]
+margin_right = 504.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 11
 text = "START"
 
-[node name="NextButton" type="Button" parent="UI/VBox/HBox"]
+[node name="NextButton" type="Button" parent="UI/VBox/HBox/ExecutionButtons"]
 visible = false
-margin_left = 882.0
-margin_right = 1024.0
+margin_top = 31.0
+margin_right = 504.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+size_flags_vertical = 11
+text = "NEXT"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBox/HBox/ExecutionButtons"]
+margin_top = 52.0
+margin_right = 504.0
 margin_bottom = 100.0
 size_flags_horizontal = 3
-size_flags_vertical = 9
-size_flags_stretch_ratio = 0.2
-text = "NEXT"
+size_flags_vertical = 3
+
+[node name="ResetButton" type="Button" parent="UI/VBox/HBox/ExecutionButtons/HBoxContainer"]
+margin_right = 250.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 11
+text = "RESET"
+
+[node name="EditButton" type="Button" parent="UI/VBox/HBox/ExecutionButtons/HBoxContainer"]
+margin_left = 254.0
+margin_right = 504.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 11
+text = "EDIT"
 
 [node name="Stage" type="Polygon2D" parent="."]
 color = Color( 0.823529, 0.768627, 0.65098, 1 )
@@ -80,7 +106,9 @@ position = Vector2( 50, 300 )
 [node name="RgihtLimit" type="Position2D" parent="Stage"]
 position = Vector2( 950, 300 )
 
-[connection signal="pressed" from="UI/VBox/HBox/StartButton" to="Stage" method="_on_StartButton_pressed"]
-[connection signal="pressed" from="UI/VBox/HBox/NextButton" to="Stage" method="_on_NextButton_pressed"]
+[connection signal="pressed" from="UI/VBox/HBox/ExecutionButtons/StartButton" to="Stage" method="_on_StartButton_pressed"]
+[connection signal="pressed" from="UI/VBox/HBox/ExecutionButtons/NextButton" to="Stage" method="_on_NextButton_pressed"]
+[connection signal="pressed" from="UI/VBox/HBox/ExecutionButtons/HBoxContainer/ResetButton" to="Stage" method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="UI/VBox/HBox/ExecutionButtons/HBoxContainer/EditButton" to="Stage" method="_on_EditButton_pressed"]
 [connection signal="timeout" from="Stage/Timer" to="Stage" method="_on_Timer_timeout"]
 [connection signal="confirmed" from="Stage/ResultNotifDialogue" to="Stage" method="_on_ResultNotifDialogue_confirmed"]
